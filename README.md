@@ -137,3 +137,6 @@ RepoClarity explores a different direction:
 ## License
 
 MIT
+
+---
+Built by [Moin Shaikh](https://www.linkedin.com/in/moingshaikh/)
