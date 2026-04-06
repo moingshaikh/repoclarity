@@ -1,8 +1,8 @@
 # RepoClarity
 
-Understand any GitHub repo, locally — in one command.
+**Understand any repo, locally.**
 
-RepoClarity is a local-first CLI tool that helps developers quickly understand a codebase using a local LLM.
+RepoClarity is a local-first CLI tool that helps developers quickly understand any codebase using a local LLM. Pass a local path or a GitHub URL and get a structured breakdown instantly.
 
 No API keys. No cloud. No data leaving your machine.
 
@@ -12,68 +12,75 @@ No API keys. No cloud. No data leaving your machine.
 
 Opening a new repo is slow.
 
-- README is incomplete  
-- Codebase is unfamiliar  
-- You don’t know where to start  
+- README is incomplete
+- Codebase is unfamiliar
+- You don't know where to start
 
-You spend 20–30 minutes just figuring out:
+You spend 20-30 minutes just figuring out:
 
-- what this repo does  
-- which files matter  
-- whether it’s worth your time  
+- what this repo does
+- which files matter
+- whether it's worth your time
 
 ---
 
 ## What RepoClarity does
 
-RepoClarity analyzes a repository locally and returns a structured breakdown:
+RepoClarity analyzes a repository and returns a structured breakdown:
 
-- what the repo does  
-- key files to look at  
-- important insights  
-- risks or limitations  
-- suggested next steps  
+- what the repo does
+- key files to look at
+- important insights
+- risks or limitations
+- suggested next steps
 
-All in one response.
+All in one response. All on your machine.
 
 ---
 
-## Example
-
-Run this command:
-
+## Usage
 ```bash
-rclr ./repo "what does this repo do"
+# Analyze a local repo
+rclr ./path/to/repo "what does this repo do"
+
+# Analyze a GitHub repo directly
+rclr https://github.com/owner/repo "what does this repo do"
+
+# Analyze a GitHub repo and keep the local clone
+rclr https://github.com/owner/repo "what does this repo do" --keep
 ```
 
 ---
 
-## Real Output (RepoClarity analyzing itself)
+## Example
+```bash
+rclr ./repoclarity "what does this repo do"
+```
 
+Output:
 ```json
 {
-  "repo_summary": "RepoClarity is a local-first CLI tool that helps developers quickly understand a codebase using a local LLM.",
+  "repo_summary": "A local-first CLI tool that helps developers quickly understand any codebase using a local LLM.",
+  "what_it_does": "RepoClarity analyzes a local repository by scanning key files and searching for relevant code. It passes the context to qwen2.5-coder running via Ollama and returns a structured breakdown of what the repo does, which files matter, and what to watch out for.",
   "key_files": [
-    "src/main.py — CLI entry point",
-    "src/agent.py — core reasoning logic",
-    "src/tools.py — file scanning and search utilities",
-    "pyproject.toml — project configuration",
-    "README.md — usage and overview"
+    "src/main.py",
+    "src/agent.py",
+    "src/tools.py",
+    "pyproject.toml",
+    "README.md"
   ],
   "insights": [
-    "All LLM inference happens locally via Ollama, with no external API calls.",
-    "Two CLI entry points are registered (rclr and repoclarity), both mapping to the same interface.",
-    "The tool uses a constrained context approach by scanning selected files rather than loading the full repository.",
-    "Designed for fast repo understanding, not deep multi-hop code reasoning."
+    "All LLM inference happens locally via Ollama, no external API calls are made.",
+    "Two CLI entry points are registered: rclr and repoclarity, both point to the same command.",
+    "The agent uses three tools: list_files, read_file, and search_code to build repo context before calling the model."
   ],
   "risks": [
-    "Response time depends heavily on hardware, CPU-only systems may be slower.",
-    "Output quality depends on the presence and clarity of key files like README and entry points."
+    "Response time depends on hardware. CPU-only machines will be significantly slower.",
+    "Output quality degrades on repos with sparse or missing README files."
   ],
   "suggested_actions": [
-    "Run RepoClarity on unfamiliar repos before investing time in manual code reading.",
-    "Use targeted queries such as 'entry points' or 'data flow' to explore specific aspects.",
-    "Start by reviewing key_files to quickly navigate the codebase."
+    "Run rclr on a repo you are evaluating before contributing to it.",
+    "Try different query phrasings to surface different insights from the same repo."
   ]
 }
 ```
@@ -82,27 +89,30 @@ rclr ./repo "what does this repo do"
 
 ## Why local-first matters
 
-- no API costs  
-- no rate limits  
-- works offline  
-- safe for private codebases  
+- no API costs
+- no rate limits
+- works offline
+- safe for private codebases
 
 ---
 
 ## How it works
 
-- scans key files in the repo  
-- builds a constrained context  
-- sends it to a local LLM (via Ollama)  
-- returns structured output  
+- scans key files in the repo
+- builds a constrained context
+- sends it to a local LLM (via Ollama)
+- returns structured output
+
+When given a GitHub URL, RepoClarity clones the repo to a temporary directory, analyzes it, and deletes it automatically. Use `--keep` to retain the clone.
 
 ---
 
 ## Requirements
 
-- Python 3.12+  
-- Ollama installed  
-
+- Python 3.12+
+- Ollama installed
+- Git installed (required for GitHub URL support)
+- Model:
 ```bash
 ollama pull qwen2.5-coder
 ```
@@ -110,7 +120,6 @@ ollama pull qwen2.5-coder
 ---
 
 ## Install
-
 ```bash
 git clone https://github.com/moingshaikh/repoclarity.git
 cd repoclarity
@@ -119,29 +128,20 @@ pip install -e .
 
 ---
 
-## Usage
-
-Run RepoClarity on any repository:
-
-```bash
-rclr ./repo "what does this repo do"
-```
-
----
-
 ## Scope (v1)
 
 RepoClarity v1 focuses on:
 
-- fast repo understanding  
-- local execution  
-- structured output  
+- fast repo understanding
+- local execution
+- structured output
+- GitHub URL support with auto-clone
 
 Not included yet:
 
-- deep code analysis  
-- multi-file reasoning chains  
-- agent workflows  
+- deep code analysis
+- multi-file reasoning chains
+- agent workflows
 
 ---
 
@@ -149,9 +149,9 @@ Not included yet:
 
 Most AI tooling today assumes:
 
-- cloud access  
-- API keys  
-- external inference  
+- cloud access
+- API keys
+- external inference
 
 RepoClarity explores a different direction:
 
