@@ -1,98 +1,139 @@
-# repoclarity
+# RepoClarity
 
-**Understand any repo, locally.**
+**Understand any GitHub repo, locally.**
 
-A local-first CLI tool that helps developers quickly understand a codebase using a local LLM. No API keys. No cloud. Just clarity.
+RepoClarity is a local-first CLI tool that helps developers quickly understand a codebase using a local LLM.
 
----
-
-## Requirements
-
-- Python 3.12+
-- [Ollama](https://ollama.com) installed and running
-- `qwen2.5-coder` model pulled locally
-
-```bash
-ollama pull qwen2.5-coder
-```
+No API keys. No cloud. No data leaving your machine.
 
 ---
 
-## Installation
+## The problem
 
-```bash
-git clone https://github.com/yourusername/repoclarity.git
-cd repoclarity
-pip install -e .
-```
+Opening a new repo is slow.
 
-This registers two CLI commands: `rclr` and `repoclarity`.
+- README is incomplete  
+- Codebase is unfamiliar  
+- You don’t know where to start  
+
+You spend 20–30 minutes just figuring out:
+- what this repo does  
+- which files matter  
+- whether it’s worth your time  
 
 ---
 
-## Usage
+## What RepoClarity does
 
-```bash
-rclr ./path/to/repo "your question or intent"
-```
+RepoClarity analyzes a repository locally and returns a structured breakdown:
 
-Or:
+- what the repo does  
+- key files to look at  
+- important insights  
+- risks or limitations  
+- suggested next steps  
 
-```bash
-repoclarity ./path/to/repo "find potential issues"
-```
+All in one response.
 
 ---
 
 ## Example
 
 ```bash
-rclr ./myproject "what does this repo do and what are the risks"
+rclr ./some-repo "what does this repo do and what are the risks"
 ```
 
-**Example output:**
+Output:
 
 ```json
 {
-  "repo_summary": "A Flask-based REST API for managing user authentication.",
-  "what_it_does": "Provides JWT-based login and registration endpoints. Uses SQLite for local development and PostgreSQL in production.",
-  "key_files": ["main.py", "auth/routes.py", "requirements.txt", "README.md"],
-  "insights": [
-    "Authentication logic is centralized in auth/routes.py",
-    "Environment variables are used for secrets but no .env.example is present"
-  ],
-  "risks": [
-    "No rate limiting on login endpoint",
-    "SQLite used in dev may mask production-only bugs"
-  ],
-  "suggested_actions": [
-    "Add .env.example for onboarding clarity",
-    "Review auth/routes.py for input validation",
-    "Test against PostgreSQL locally before deploying"
-  ]
+  "repo_summary": "...",
+  "key_files": [...],
+  "insights": [...],
+  "risks": [...],
+  "suggested_actions": [...]
 }
 ```
 
 ---
 
+## Why local-first matters
+
+- no API costs  
+- no rate limits  
+- works offline  
+- safe for private codebases  
+
+---
+
 ## How it works
 
-1. Lists all files in the repo
-2. Reads key files (README, entry points, config)
-3. Searches code for keywords from your query
-4. Passes context to `qwen2.5-coder` via Ollama
-5. Returns structured JSON insights
-
-All processing happens on your machine.
+- scans key files in the repo  
+- builds a constrained context  
+- sends it to a local LLM (via Ollama)  
+- returns structured output  
 
 ---
 
-## Notes
+## Requirements
 
-- Performance depends on your hardware. Apple Silicon and GPU machines will respond in seconds. CPU-only machines will take longer.
-- Output quality depends on README and code clarity in the target repo.
-- v1 is intentionally minimal, understand first, extend later.
+- Python 3.12+
+- Ollama installed
+- Model:
+  ```bash
+  ollama pull qwen2.5-coder
+  ```
 
 ---
 
-Built by [Moin Shaikh](https://www.linkedin.com/in/moingshaikh/)
+## Install
+
+```bash
+git clone https://github.com/moingshaikh/repoclarity.git
+cd repoclarity
+pip install -e .
+```
+
+---
+
+## Usage
+
+```bash
+rclr ./repo "what does this repo do"
+```
+
+---
+
+## Scope (v1)
+
+RepoClarity v1 focuses on:
+
+- fast repo understanding  
+- local execution  
+- structured output  
+
+Not included yet:
+
+- deep code analysis  
+- multi-file reasoning chains  
+- agent workflows  
+
+---
+
+## Why this exists
+
+Most AI tooling today assumes:
+
+- cloud access  
+- API keys  
+- external inference  
+
+RepoClarity explores a different direction:
+
+> **What if understanding codebases could happen entirely locally?**
+
+---
+
+## License
+
+MIT
