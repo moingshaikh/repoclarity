@@ -1,6 +1,6 @@
 # RepoClarity
 
-**Understand any GitHub repo, locally.**
+**Understand any local repo, clearly.**
 
 RepoClarity is a local-first CLI tool that helps developers quickly understand a codebase using a local LLM.
 
