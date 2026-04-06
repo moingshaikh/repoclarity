@@ -1,6 +1,6 @@
 # RepoClarity
 
-**Understand any GitHub repo, locally.**
+Understand any GitHub repo, locally — in one command.
 
 RepoClarity is a local-first CLI tool that helps developers quickly understand a codebase using a local LLM.
 
@@ -40,8 +40,10 @@ All in one response.
 
 ## Example
 
+Run this command:
+
 ```bash
-rclr ./repoclarity "what does this repo do"
+rclr ./repo "what does this repo do"
 ```
 
 ---
@@ -50,8 +52,7 @@ rclr ./repoclarity "what does this repo do"
 
 ```json
 {
-  "repo_summary": "RepoClarity is a local-first CLI tool that helps developers quickly understand a codebase using a local LLM, with no external API calls.",
-
+  "repo_summary": "RepoClarity is a local-first CLI tool that helps developers quickly understand a codebase using a local LLM.",
   "key_files": [
     "src/main.py — CLI entry point",
     "src/agent.py — core reasoning logic",
@@ -59,19 +60,16 @@ rclr ./repoclarity "what does this repo do"
     "pyproject.toml — project configuration",
     "README.md — usage and overview"
   ],
-
   "insights": [
     "All LLM inference happens locally via Ollama, with no external API calls.",
     "Two CLI entry points are registered (rclr and repoclarity), both mapping to the same interface.",
     "The tool uses a constrained context approach by scanning selected files rather than loading the full repository.",
     "Designed for fast repo understanding, not deep multi-hop code reasoning."
   ],
-
   "risks": [
     "Response time depends heavily on hardware, CPU-only systems may be slower.",
     "Output quality depends on the presence and clarity of key files like README and entry points."
   ],
-
   "suggested_actions": [
     "Run RepoClarity on unfamiliar repos before investing time in manual code reading.",
     "Use targeted queries such as 'entry points' or 'data flow' to explore specific aspects.",
@@ -102,8 +100,8 @@ rclr ./repoclarity "what does this repo do"
 
 ## Requirements
 
-- Python 3.12+
-- Ollama installed
+- Python 3.12+  
+- Ollama installed  
 
 ```bash
 ollama pull qwen2.5-coder
@@ -122,6 +120,8 @@ pip install -e .
 ---
 
 ## Usage
+
+Run RepoClarity on any repository:
 
 ```bash
 rclr ./repo "what does this repo do"
