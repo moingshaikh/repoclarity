@@ -10,7 +10,7 @@ def build_prompt(repo_path: str, user_query: str, file_list: list[str], file_sam
 REPO PATH: {repo_path}
 USER QUERY: {user_query}
 
-FILE LIST (first 60):
+FILE LIST (first 20):
 {files_str}
 
 KEY FILE CONTENTS:
