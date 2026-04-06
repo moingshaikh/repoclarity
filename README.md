@@ -1,6 +1,6 @@
 # RepoClarity
 
-**Understand any local repo, clearly.**
+**Understand any GitHub repo, locally.**
 
 RepoClarity is a local-first CLI tool that helps developers quickly understand a codebase using a local LLM.
 
@@ -17,6 +17,7 @@ Opening a new repo is slow.
 - You don’t know where to start  
 
 You spend 20–30 minutes just figuring out:
+
 - what this repo does  
 - which files matter  
 - whether it’s worth your time  
@@ -40,18 +41,42 @@ All in one response.
 ## Example
 
 ```bash
-rclr ./some-repo "what does this repo do and what are the risks"
+rclr ./repoclarity "what does this repo do"
 ```
 
-Output:
+---
+
+## Real Output (RepoClarity analyzing itself)
 
 ```json
 {
-  "repo_summary": "...",
-  "key_files": [...],
-  "insights": [...],
-  "risks": [...],
-  "suggested_actions": [...]
+  "repo_summary": "RepoClarity is a local-first CLI tool that helps developers quickly understand a codebase using a local LLM, with no external API calls.",
+
+  "key_files": [
+    "src/main.py — CLI entry point",
+    "src/agent.py — core reasoning logic",
+    "src/tools.py — file scanning and search utilities",
+    "pyproject.toml — project configuration",
+    "README.md — usage and overview"
+  ],
+
+  "insights": [
+    "All LLM inference happens locally via Ollama, with no external API calls.",
+    "Two CLI entry points are registered (rclr and repoclarity), both mapping to the same interface.",
+    "The tool uses a constrained context approach by scanning selected files rather than loading the full repository.",
+    "Designed for fast repo understanding, not deep multi-hop code reasoning."
+  ],
+
+  "risks": [
+    "Response time depends heavily on hardware, CPU-only systems may be slower.",
+    "Output quality depends on the presence and clarity of key files like README and entry points."
+  ],
+
+  "suggested_actions": [
+    "Run RepoClarity on unfamiliar repos before investing time in manual code reading.",
+    "Use targeted queries such as 'entry points' or 'data flow' to explore specific aspects.",
+    "Start by reviewing key_files to quickly navigate the codebase."
+  ]
 }
 ```
 
@@ -79,10 +104,10 @@ Output:
 
 - Python 3.12+
 - Ollama installed
-- Model:
-  ```bash
-  ollama pull qwen2.5-coder
-  ```
+
+```bash
+ollama pull qwen2.5-coder
+```
 
 ---
 
@@ -130,7 +155,7 @@ Most AI tooling today assumes:
 
 RepoClarity explores a different direction:
 
-> **What if understanding codebases could happen entirely locally?**
+> What if understanding codebases could happen entirely locally?
 
 ---
 
@@ -139,4 +164,5 @@ RepoClarity explores a different direction:
 MIT
 
 ---
+
 Built by [Moin Shaikh](https://www.linkedin.com/in/moingshaikh/)
